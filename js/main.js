@@ -1,19 +1,14 @@
-function getRandomNumber (min, max) {
+function getRandomFloat (min, max, precision) {
   if (max <= min || max < 0 || min < 0) {
     return null;
   }
-  return Math.floor((Math.random() * (max - min + 1)) + min);
+  const result = (Math.random() * (max - min + 0.1)) + min;
+  return result.toFixed(precision);
 }
-getRandomNumber(3, 20);
 
-function getRandomFloat (min, max, intAfterDot) {
-  if (max <= min || max < 0 || min < 0) {
-    return null;
-  }
-  let result = (Math.random() * (max - min + 0.1)) + min;
-  if (result > max) {
-    result = max;
-  }
-  return result.toFixed(intAfterDot);
+function getRandomInteger (min, max, zero) {
+  return getRandomFloat(min, max, zero);
 }
-getRandomFloat(1.2, 2.6, 2);
+
+getRandomFloat(1.2, 4.2, 2);
+getRandomInteger(1, 15, 0);
