@@ -6,9 +6,9 @@ function getRandomFloat (min, max, precision) {
   return result.toFixed(precision);
 }
 
-function getRandomInteger (min, max, zero) {
-  return getRandomFloat(min, max, zero);
+function getRandomInteger (min, max) {
+  return getRandomFloat(min, max, 0);
 }
 
 getRandomFloat(1.2, 4.2, 2);
-getRandomInteger(1, 15, 0);
+getRandomInteger(1, 15);
