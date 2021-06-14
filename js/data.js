@@ -51,6 +51,5 @@ const createAdvert = () => ({
     lng: getRandomFloat(139.70000, 139.80000, 5),
   },
 });
-// eslint-disable-next-line no-unused-vars
-const similarAdverts = new Array(10).fill(null).map(() => createAdvert());
 
+export {createAdvert};
