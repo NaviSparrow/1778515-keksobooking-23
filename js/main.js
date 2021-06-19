@@ -1,5 +1,11 @@
 import {createAdvert} from './data.js';
-import './popup.js';
+import {createPopup} from './popup.js';
+import {mapCanvas} from './popup.js';
 
-// // eslint-disable-next-line no-unused-vars
-// const similarAdverts = new Array(10).fill(null).map(() => createAdvert());
+const advertsPopupFragment = document.createDocumentFragment();
+const similarAdverts = new Array(10).fill(null).map(() => createAdvert());
+similarAdverts.forEach((advert) => {
+  advertsPopupFragment.appendChild(createPopup(advert));
+});
+
+mapCanvas.appendChild(advertsPopupFragment.firstChild);
