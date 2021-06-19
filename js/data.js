@@ -31,7 +31,7 @@ const PHOTOS = [
 
 const createAdvert = () => ({
   author: {
-    avatar: `img/avatars/user/0${getRandomInteger(1,8)}.png`,
+    avatar: `img/avatars/user0${getRandomInteger(1,8)}.png`,
   },
   offer: {
     title: 'Do you need a room?',
