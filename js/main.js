@@ -13,4 +13,4 @@ similarAdverts.forEach((advert) => {
 mapCanvas.appendChild(advertsPopupFragment.firstChild);
 
 getNotActivePage();
-// getActivePage();
+getActivePage();
