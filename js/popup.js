@@ -33,23 +33,6 @@ const updateFeatures = (popuptItem, features) => {
   }
 };
 
-// const updateFeatures = (popuptItem, advert) => {
-//   const popupFeaturesBlock = popuptItem.querySelector('.popup__features');
-//   const popupFeatures = popupFeaturesBlock.children;
-//   const advertFeatures = advert.offer.features;
-//   for (let i = 0; i < popupFeatures.length; i++) {
-//     popupFeatures[i].classList.add('hidden');
-//     for (let j = 0; j < advertFeatures.length; j++) {
-//       if (popupFeatures[i].classList.contains(`popup__feature--${advertFeatures[j]}`)) {
-//         popupFeatures[i].classList.remove('hidden');
-//       }
-//       else if (advertFeatures.length === 0) {
-//         popupFeaturesBlock.classList.add('hidden');
-//       }
-//     }
-//   }
-// };
-
 const updatePhotos  = (popuptItem, photos) => {
   const popupPhotosBlock = popuptItem.querySelector('.popup__photos');
   const popupPhoto = popupPhotosBlock.querySelector('.popup__photo');
