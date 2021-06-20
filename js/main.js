@@ -3,6 +3,7 @@ import {createPopup} from './popup.js';
 import {mapCanvas} from './popup.js';
 import {getNotActivePage} from './form.js';
 import { getActivePage } from './form.js';
+import './form.js';
 
 const advertsPopupFragment = document.createDocumentFragment();
 const similarAdverts = new Array(10).fill(null).map(() => createAdvert());
