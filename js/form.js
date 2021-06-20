@@ -6,6 +6,9 @@ const mapFiltersElements = document.querySelectorAll('.map__filter');
 const noticeFormType = document.querySelector('#type');
 const noticeFormPrice = document.querySelector('#price');
 const noticeFormTitle = document.querySelector('#title');
+const noticeFormAddress = document.querySelector('#address');
+const noticeFormRooms = document.querySelector('#room_number');
+const noticeFormCapacity = document.querySelector('#capacity');
 
 const setFormDisabled = (form, elements) => {
   form.classList.add('ad-form--disabled');
@@ -37,27 +40,22 @@ noticeFormType.addEventListener('change', () => {
     case 'bungalow':
       noticeFormPrice.placeholder = '0';
       noticeFormPrice.min = '0';
-      console.log( noticeFormPrice.min);
       break;
     case 'flat':
       noticeFormPrice.placeholder = '1000';
       noticeFormPrice.min = '1000';
-      console.log( noticeFormPrice.min);
       break;
     case 'hotel':
       noticeFormPrice.placeholder = '3000';
       noticeFormPrice.min = '3000';
-      console.log( noticeFormPrice.min);
       break;
     case 'house':
       noticeFormPrice.placeholder = '5000';
       noticeFormPrice.min = '5000';
-      console.log( noticeFormPrice.min);
       break;
     case 'palace':
       noticeFormPrice.placeholder = '10000';
       noticeFormPrice.min = '10000';
-      console.log( noticeFormPrice.min);
       break;
   }
 });
@@ -84,6 +82,46 @@ noticeFormPrice.addEventListener('invalid', () => {
   }
 });
 
- console.log(noticeFormPrice.validity);
+
+noticeFormRooms.addEventListener('change', () => {
+  switch (noticeFormRooms.value) {
+    case '1':
+      for (const option of noticeFormCapacity) {
+        if (option.value !== '1') {
+          option.setAttribute('disabled', 'disabled');
+        }
+      }
+      break;
+    case '2':
+      for (const option of noticeFormCapacity) {
+        if (option.value !== '2' && option.value !== '1') {
+          option.setAttribute('disabled', 'disabled');
+        }
+      }
+      break;
+    case '3':
+      for (const option of noticeFormCapacity) {
+        if (option.value !== '3' && option.value !== '2' && option.value !== '1') {
+          option.setAttribute('disabled', 'disabled');
+        }
+      }
+      break;
+    case '100':
+      for (const option of noticeFormCapacity) {
+        if (option.value !== '0') {
+          option.setAttribute('disabled', 'disabled');
+        }
+      }
+      break;
+  }
+});
+
+noticeFormAddress.addEventListener('invalid', () => {
+  if (noticeFormAddress.validity.valueMissing) {
+    noticeFormAddress.setCustomValidity('Обязательное поле для заполнения');
+  } else {
+    noticeFormAddress.setCustomValidity('');
+  }
+});
 
 export {getActivePage, getNotActivePage};
