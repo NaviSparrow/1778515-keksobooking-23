@@ -34,32 +34,6 @@ const getNotActivePage = () => {
   setFormDisabled(mapFiltersForm, mapFiltersElements);
 };
 
-
-noticeFormType.addEventListener('change', () => {
-  switch (noticeFormType.value) {
-    case 'bungalow':
-      noticeFormPrice.placeholder = '0';
-      noticeFormPrice.min = '0';
-      break;
-    case 'flat':
-      noticeFormPrice.placeholder = '1000';
-      noticeFormPrice.min = '1000';
-      break;
-    case 'hotel':
-      noticeFormPrice.placeholder = '3000';
-      noticeFormPrice.min = '3000';
-      break;
-    case 'house':
-      noticeFormPrice.placeholder = '5000';
-      noticeFormPrice.min = '5000';
-      break;
-    case 'palace':
-      noticeFormPrice.placeholder = '10000';
-      noticeFormPrice.min = '10000';
-      break;
-  }
-});
-
 noticeFormTitle.addEventListener('invalid', () => {
   if (noticeFormTitle.validity.tooShort) {
     noticeFormTitle.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
