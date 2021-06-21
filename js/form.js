@@ -57,7 +57,6 @@ noticeFormPrice.addEventListener('invalid', () => {
   }
 });
 
-
 noticeFormRooms.addEventListener('change', () => {
   switch (noticeFormRooms.value) {
     case '1':
