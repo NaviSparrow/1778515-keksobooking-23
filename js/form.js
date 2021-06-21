@@ -3,13 +3,13 @@ const noticeFormElements = document.querySelectorAll('.ad-form__element');
 const mapFiltersForm = document.querySelector('.map__filters');
 const mapFiltersElements = document.querySelectorAll('.map__filter');
 
-const noticeFormType = document.querySelector('#type');
 const noticeFormPrice = document.querySelector('#price');
 const noticeFormTitle = document.querySelector('#title');
 const noticeFormAddress = document.querySelector('#address');
 const noticeFormRooms = document.querySelector('#room_number');
 const noticeFormCapacity = document.querySelector('#capacity');
 
+//---Активность страницы
 const setFormDisabled = (form, elements) => {
   form.classList.add('ad-form--disabled');
   for (const element of elements) {
@@ -34,6 +34,7 @@ const getNotActivePage = () => {
   setFormDisabled(mapFiltersForm, mapFiltersElements);
 };
 
+//---Валидация
 noticeFormTitle.addEventListener('invalid', () => {
   if (noticeFormTitle.validity.tooShort) {
     noticeFormTitle.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
