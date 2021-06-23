@@ -45,35 +45,18 @@ noticeFormPrice.addEventListener('invalid', () => {
 });
 
 noticeFormRooms.addEventListener('change', () => {
-  switch (noticeFormRooms.value) {
-    case '1':
-      for (const option of noticeFormCapacity) {
-        if (option.value !== '1') {
-          option.setAttribute('disabled', 'disabled');
-        }
+  const roomsInt = parseInt(noticeFormRooms.value, 10);
+  for (const option of noticeFormCapacity) {
+    const optionInt = parseInt(option.value, 10);
+    if (roomsInt === 100) {
+      if (optionInt !== 0) {
+        option.setAttribute('disabled', 'disabled');
       }
-      break;
-    case '2':
-      for (const option of noticeFormCapacity) {
-        if (option.value !== '2' && option.value !== '1') {
-          option.setAttribute('disabled', 'disabled');
-        }
-      }
-      break;
-    case '3':
-      for (const option of noticeFormCapacity) {
-        if (option.value !== '3' && option.value !== '2' && option.value !== '1') {
-          option.setAttribute('disabled', 'disabled');
-        }
-      }
-      break;
-    case '100':
-      for (const option of noticeFormCapacity) {
-        if (option.value !== '0') {
-          option.setAttribute('disabled', 'disabled');
-        }
-      }
-      break;
+    } else if (optionInt > roomsInt || optionInt === 0) {
+      option.setAttribute('disabled', 'disabled');
+    } else {
+      option.removeAttribute('disabled', 'disabled');
+    }
   }
 });
 
