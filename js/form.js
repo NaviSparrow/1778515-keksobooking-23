@@ -98,4 +98,4 @@ noticeFormAddress.addEventListener('invalid', () => {
   }
 });
 
-export {getActivePage, getNotActivePage};
+export {noticeForm, noticeFormElements};
