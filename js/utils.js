@@ -15,4 +15,24 @@ const getRandomArray = (array) => {
   return newArray.slice(0, getRandomInteger(0, newArray.length - 1));
 };
 
-export {getRandomFloat, getRandomInteger, getRandomArrayElement, getRandomArray};
+const setFormEnabled = (form, elements, enabled) => {
+  if (enabled) {
+    form.classList.remove('ad-form--disabled');
+    for (const element of elements) {
+      element.removeAttribute('disabled', 'disabled');
+    }
+  } else {
+    form.classList.add('ad-form--disabled');
+    for (const element of elements) {
+      element.setAttribute('disabled', 'disabled');
+    }
+  }
+};
+
+export {
+  getRandomFloat,
+  getRandomInteger,
+  getRandomArrayElement,
+  getRandomArray,
+  setFormEnabled
+};

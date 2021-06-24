@@ -1,9 +1,9 @@
-import {noticeForm, noticeFormElements, setOfferFormEnabled} from './form.js';
-import {mapFiltersForm, mapFiltersElements, setMapFormEnabled} from './map.js';
+import {setOfferFormEnabled} from './form.js';
+import {setMapFormEnabled} from './map.js';
 
 const setPageEnabled = (enabled) => {
-  setOfferFormEnabled(noticeForm, noticeFormElements, enabled);
-  setMapFormEnabled(mapFiltersForm, mapFiltersElements, enabled);
+  setOfferFormEnabled(enabled);
+  setMapFormEnabled(enabled);
 };
 
 export {setPageEnabled};
