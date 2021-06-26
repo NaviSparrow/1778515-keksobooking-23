@@ -1,5 +1,14 @@
 import { setFormEnabled } from './utils.js';
 
+const HUNDRED_ROOMS = 100;
+const ZERO_CAPACITY = 0;
+const PRICE_FOR_TYPE = {
+  bungalow: '0',
+  flat: '1000',
+  hotel: '3000',
+  house: '5000',
+  palace: '10000',
+};
 const noticeForm = document.querySelector('.ad-form');
 const noticeFormElements = document.querySelectorAll('.ad-form__element');
 const noticeFormPrice = document.querySelector('#price');
@@ -38,8 +47,6 @@ noticeFormPrice.addEventListener('invalid', () => {
 });
 
 noticeFormRooms.addEventListener('change', () => {
-  const HUNDRED_ROOMS = 100;
-  const ZERO_CAPACITY = 0;
   const roomsInt = parseInt(noticeFormRooms.value, 10);
   for (const option of noticeFormCapacity) {
     const optionInt = parseInt(option.value, 10);
@@ -59,13 +66,6 @@ noticeFormRooms.addEventListener('change', () => {
 });
 
 noticeFormType.addEventListener('change', () => {
-  const PRICE_FOR_TYPE = {
-    bungalow: '0',
-    flat: '1000',
-    hotel: '3000',
-    house: '5000',
-    palace: '10000',
-  };
   noticeFormPrice.placeholder = PRICE_FOR_TYPE[noticeFormType.value];
   noticeFormPrice.min = PRICE_FOR_TYPE[noticeFormType.value];
 });
