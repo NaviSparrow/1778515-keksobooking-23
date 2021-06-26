@@ -1,27 +1,29 @@
+import { setFormEnabled } from './utils.js';
+
+const HUNDRED_ROOMS = 100;
+const ZERO_CAPACITY = 0;
+const PRICE_FOR_TYPE = {
+  bungalow: '0',
+  flat: '1000',
+  hotel: '3000',
+  house: '5000',
+  palace: '10000',
+};
 const noticeForm = document.querySelector('.ad-form');
 const noticeFormElements = document.querySelectorAll('.ad-form__element');
-
 const noticeFormPrice = document.querySelector('#price');
 const noticeFormTitle = document.querySelector('#title');
 const noticeFormAddress = document.querySelector('#address');
 const noticeFormRooms = document.querySelector('#room_number');
 const noticeFormCapacity = document.querySelector('#capacity');
+const noticeFormType = document.querySelector('#type');
+const noticeFormTimein = document.querySelector('#timein');
+const noticeFormTimeout = document.querySelector('#timeout');
 
-const setOfferFormEnabled = (form, elements, enabled) => {
-  if (enabled) {
-    form.classList.remove('ad-form--disabled');
-    for (const element of elements) {
-      element.removeAttribute('disabled', 'disabled');
-    }
-  } else {
-    form.classList.add('ad-form--disabled');
-    for (const element of elements) {
-      element.setAttribute('disabled', 'disabled');
-    }
-  }
+const setOfferFormEnabled = (enabled) => {
+  setFormEnabled(noticeForm, noticeFormElements, enabled);
 };
 
-//---Валидация
 noticeFormTitle.addEventListener('invalid', () => {
   if (noticeFormTitle.validity.tooShort) {
     noticeFormTitle.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
@@ -48,16 +50,32 @@ noticeFormRooms.addEventListener('change', () => {
   const roomsInt = parseInt(noticeFormRooms.value, 10);
   for (const option of noticeFormCapacity) {
     const optionInt = parseInt(option.value, 10);
-    if (roomsInt === 100) {
-      if (optionInt !== 0) {
+    if (roomsInt === HUNDRED_ROOMS) {
+      if (optionInt !== ZERO_CAPACITY) {
         option.setAttribute('disabled', 'disabled');
+      } else {
+        option.removeAttribute('disabled', 'disabled');
       }
-    } else if (optionInt > roomsInt || optionInt === 0) {
+    }
+    else if (optionInt > roomsInt || optionInt === ZERO_CAPACITY) {
       option.setAttribute('disabled', 'disabled');
     } else {
       option.removeAttribute('disabled', 'disabled');
     }
   }
+});
+
+noticeFormType.addEventListener('change', () => {
+  noticeFormPrice.placeholder = PRICE_FOR_TYPE[noticeFormType.value];
+  noticeFormPrice.min = PRICE_FOR_TYPE[noticeFormType.value];
+});
+
+noticeFormTimein.addEventListener('change', () => {
+  noticeFormTimeout.value = noticeFormTimein.value;
+});
+
+noticeFormTimeout.addEventListener('change', () => {
+  noticeFormTimein.value = noticeFormTimeout.value;
 });
 
 noticeFormAddress.addEventListener('invalid', () => {
@@ -68,4 +86,4 @@ noticeFormAddress.addEventListener('invalid', () => {
   }
 });
 
-export {noticeForm, noticeFormElements, setOfferFormEnabled};
+export {setOfferFormEnabled};
