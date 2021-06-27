@@ -1,4 +1,6 @@
 import {setFormEnabled} from './utils.js';
+import { showPopup } from './popup.js';
+import { setPageEnabled } from './page.js';
 const mapFiltersForm = document.querySelector('.map__filters');
 const mapFiltersElements = document.querySelectorAll('.map__filter');
 
@@ -6,4 +8,65 @@ const setMapFormEnabled = (enabled) => {
   setFormEnabled(mapFiltersForm, mapFiltersElements, enabled);
 };
 
-export {setMapFormEnabled};
+const map = L.map('map-canvas')
+  .setView({
+    lat: 35.68322,
+    lng: 139.76901,
+  }, 10);
+
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+).addTo(map);
+
+
+const mainPinIcon = L.icon ({
+  iconUrl: '../img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
+});
+
+const mainPinMarker = L.marker(
+  {
+    lat: 35.68322,
+    lng: 139.76901,
+  },
+  {
+    draggable: true,
+    icon: mainPinIcon,
+  },
+).addTo(map);
+
+const advertIcon = L.icon({
+  iconUrl: '../img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
+const advertGroup = L.layerGroup().addTo(map);
+
+const createMarker = (advert) => {
+  L.marker(
+    {
+      lat: advert.location.advertLocation.lat,
+      lng: advert.location.advertLocation.lng,
+    },
+    {
+      icon: advertIcon,
+    },
+  ).addTo(advertGroup)
+    .bindPopup(
+      showPopup(advert),
+      {
+        keepInView: true,
+      },
+    );
+};
+
+export {
+  mainPinMarker,
+  setMapFormEnabled,
+  createMarker
+};

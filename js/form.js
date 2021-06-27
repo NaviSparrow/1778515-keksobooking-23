@@ -1,4 +1,5 @@
 import { setFormEnabled } from './utils.js';
+import { mainPinMarker } from './map.js';
 
 const HUNDRED_ROOMS = 100;
 const ZERO_CAPACITY = 0;
@@ -84,6 +85,12 @@ noticeFormAddress.addEventListener('invalid', () => {
   } else {
     noticeFormAddress.setCustomValidity('');
   }
+});
+
+noticeFormAddress.value = `${mainPinMarker._latlng.lat}, ${mainPinMarker._latlng.lng}`;
+mainPinMarker.on('moveend', (evt) => {
+  const coordinates = evt.target.getLatLng();
+  noticeFormAddress.value = `${Number(coordinates.lat.toFixed(5))}, ${Number(coordinates.lng.toFixed(5))}`;
 });
 
 export {setOfferFormEnabled};

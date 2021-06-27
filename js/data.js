@@ -29,27 +29,32 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
-const createAdvert = () => ({
-  author: {
-    avatar: `img/avatars/user0${getRandomInteger(1,8)}.png`,
-  },
-  offer: {
-    title: 'Do you need a room?',
-    address: `${location.x}, ${location.y}`,
-    price: getRandomInteger(1, 5000),
-    type: getRandomArrayElement(OFFER_TYPES),
-    rooms: getRandomInteger(0, 5),
-    guests: getRandomInteger(0, 5),
-    checkin: getRandomArrayElement(CHECKINS),
-    checkout: getRandomArrayElement(CHECKINS),
-    features: getRandomArray(FEATURES),
-    description: 'Сдаётся комната в центре Токио, все удобства',
-    photos: getRandomArray(PHOTOS),
-  },
-  location: {
+const createAdvert = () => {
+  const advertLocation = {
     lat: getRandomFloat(35.65000, 35.70000, 5),
     lng: getRandomFloat(139.70000, 139.80000, 5),
-  },
-});
+  };
+  return {
+    author: {
+      avatar: `img/avatars/user0${getRandomInteger(1,8)}.png`,
+    },
+    offer: {
+      title: 'Do you need a room?',
+      address: `${advertLocation.lat}, ${advertLocation.lng}`,
+      price: getRandomInteger(1, 5000),
+      type: getRandomArrayElement(OFFER_TYPES),
+      rooms: getRandomInteger(0, 5),
+      guests: getRandomInteger(0, 5),
+      checkin: getRandomArrayElement(CHECKINS),
+      checkout: getRandomArrayElement(CHECKINS),
+      features: getRandomArray(FEATURES),
+      description: 'Сдаётся комната в центре Токио, все удобства',
+      photos: getRandomArray(PHOTOS),
+    },
+    location: {
+      advertLocation,
+    },
+  };
+};
 
 export {createAdvert};
