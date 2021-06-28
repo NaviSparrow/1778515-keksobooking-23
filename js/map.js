@@ -1,6 +1,6 @@
 import {setFormEnabled} from './utils.js';
 import { showPopup } from './popup.js';
-import { setPageEnabled } from './page.js';
+
 const mapFiltersForm = document.querySelector('.map__filters');
 const mapFiltersElements = document.querySelectorAll('.map__filter');
 
@@ -8,19 +8,25 @@ const setMapFormEnabled = (enabled) => {
   setFormEnabled(mapFiltersForm, mapFiltersElements, enabled);
 };
 
-const map = L.map('map-canvas')
-  .setView({
+const map = L.map('map-canvas');
+
+const setOnMapLoad = (callback) => {
+  map.on('load', () => {
+    callback();
+  });
+
+  map.setView({
     lat: 35.68322,
     lng: 139.76901,
   }, 10);
 
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
-
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+  ).addTo(map);
+};
 
 const mainPinIcon = L.icon ({
   iconUrl: '../img/main-pin.svg',
@@ -67,6 +73,7 @@ const createMarker = (advert) => {
 
 export {
   mainPinMarker,
+  setOnMapLoad,
   setMapFormEnabled,
   createMarker
 };
