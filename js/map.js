@@ -10,6 +10,23 @@ const setMapFormEnabled = (enabled) => {
 
 const map = L.map('map-canvas');
 
+const mainPinIcon = L.icon ({
+  iconUrl: '../img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
+});
+
+const mainPinMarker = L.marker(
+  {
+    lat: 35.68322,
+    lng: 139.76901,
+  },
+  {
+    draggable: true,
+    icon: mainPinIcon,
+  },
+);
+
 const setOnMapLoad = (callback) => {
   map.on('load', () => {
     callback();
@@ -26,32 +43,16 @@ const setOnMapLoad = (callback) => {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     },
   ).addTo(map);
+  mainPinMarker.addTo(map);
 };
 
-const mainPinIcon = L.icon ({
-  iconUrl: '../img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
-});
-
-const mainPinMarker = L.marker(
-  {
-    lat: 35.68322,
-    lng: 139.76901,
-  },
-  {
-    draggable: true,
-    icon: mainPinIcon,
-  },
-).addTo(map);
+const advertGroup = L.layerGroup().addTo(map);
 
 const advertIcon = L.icon({
   iconUrl: '../img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
-
-const advertGroup = L.layerGroup().addTo(map);
 
 const createMarker = (advert) => {
   L.marker(

@@ -6,10 +6,8 @@ import './form.js';
 
 setPageEnabled(false);
 
-const createItemsForMap = () => {
+setOnMapLoad(() => {
   setPageEnabled(true);
   const similarAdverts = new Array(10).fill(null).map(() => createAdvert());
   similarAdverts.forEach((advert) => createMarker(advert));
-};
-
-setOnMapLoad(createItemsForMap);
+});

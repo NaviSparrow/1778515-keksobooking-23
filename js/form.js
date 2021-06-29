@@ -3,6 +3,7 @@ import { mainPinMarker } from './map.js';
 
 const HUNDRED_ROOMS = 100;
 const ZERO_CAPACITY = 0;
+const COORDINATES_LENGTH = 5;
 const PRICE_FOR_TYPE = {
   bungalow: '0',
   flat: '1000',
@@ -90,7 +91,7 @@ noticeFormAddress.addEventListener('invalid', () => {
 noticeFormAddress.value = `${mainPinMarker._latlng.lat}, ${mainPinMarker._latlng.lng}`;
 mainPinMarker.on('moveend', (evt) => {
   const coordinates = evt.target.getLatLng();
-  noticeFormAddress.value = `${Number(coordinates.lat.toFixed(5))}, ${Number(coordinates.lng.toFixed(5))}`;
+  noticeFormAddress.value = `${Number(coordinates.lat.toFixed(COORDINATES_LENGTH))}, ${Number(coordinates.lng.toFixed(COORDINATES_LENGTH))}`;
 });
 
 export {setOfferFormEnabled};
