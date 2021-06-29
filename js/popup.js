@@ -1,5 +1,4 @@
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-const mapCanvas = document.querySelector('.map__canvas');
 
 const getPopupTypeName = (type) => {
   switch (type) {
@@ -58,8 +57,7 @@ const showPopup = (advert) => {
   popuptItem.querySelector('.popup__description').textContent = advert.offer.description;
   updatePhotos(popuptItem, advert.offer.photos);
   popuptItem.querySelector('.popup__avatar').src = advert.author.avatar;
-
-  mapCanvas.appendChild(popuptItem);
+  return popuptItem;
 };
 
 export {showPopup};

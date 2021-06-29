@@ -1,9 +1,15 @@
 import {createAdvert} from './data.js';
-import {showPopup} from './popup.js';
 import {setPageEnabled} from './page.js';
+import { createMarker } from './map.js';
+import { setOnMapLoad } from './map.js';
 import './form.js';
 
-const similarAdverts = new Array(10).fill(null).map(() => createAdvert());
-showPopup(similarAdverts[0]);
+setPageEnabled(false);
 
-setPageEnabled(true);
+const createItemsForMap = () => {
+  setPageEnabled(true);
+  const similarAdverts = new Array(10).fill(null).map(() => createAdvert());
+  similarAdverts.forEach((advert) => createMarker(advert));
+};
+
+setOnMapLoad(createItemsForMap);
