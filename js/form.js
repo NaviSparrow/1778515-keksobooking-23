@@ -1,5 +1,9 @@
 import { setFormEnabled } from './utils.js';
 import { mainPinMarker } from './map.js';
+import { sendData } from './fetch.js';
+import { showError } from './popup.js';
+import { resetForm } from './page.js';
+
 
 const HUNDRED_ROOMS = 100;
 const ZERO_CAPACITY = 0;
@@ -11,6 +15,8 @@ const PRICE_FOR_TYPE = {
   house: '5000',
   palace: '10000',
 };
+const INDEX = 0;
+
 const noticeForm = document.querySelector('.ad-form');
 const noticeFormElements = document.querySelectorAll('.ad-form__element');
 const noticeFormPrice = document.querySelector('#price');
@@ -21,6 +27,7 @@ const noticeFormCapacity = document.querySelector('#capacity');
 const noticeFormType = document.querySelector('#type');
 const noticeFormTimein = document.querySelector('#timein');
 const noticeFormTimeout = document.querySelector('#timeout');
+const noticeFormResetBtn = document.querySelector('.ad-form__reset');
 
 const setOfferFormEnabled = (enabled) => {
   setFormEnabled(noticeForm, noticeFormElements, enabled);
@@ -67,6 +74,8 @@ noticeFormRooms.addEventListener('change', () => {
   }
 });
 
+noticeFormPrice.placeholder = PRICE_FOR_TYPE[noticeFormType.selectedOptions[INDEX].value];
+noticeFormPrice.min = PRICE_FOR_TYPE[noticeFormType.selectedOptions[INDEX].value];
 noticeFormType.addEventListener('change', () => {
   noticeFormPrice.placeholder = PRICE_FOR_TYPE[noticeFormType.value];
   noticeFormPrice.min = PRICE_FOR_TYPE[noticeFormType.value];
@@ -94,4 +103,26 @@ mainPinMarker.on('moveend', (evt) => {
   noticeFormAddress.value = `${Number(coordinates.lat.toFixed(COORDINATES_LENGTH))}, ${Number(coordinates.lng.toFixed(COORDINATES_LENGTH))}`;
 });
 
-export {setOfferFormEnabled};
+const setOnFormSubmit = (onSuccsess) => {
+  noticeForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    sendData(
+      onSuccsess,
+      showError,
+      new FormData(evt.target),
+    );
+  });
+};
+
+noticeFormResetBtn.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetForm();
+});
+
+export {
+  noticeForm,
+  noticeFormAddress,
+  noticeFormResetBtn,
+  setOfferFormEnabled,
+  setOnFormSubmit
+};
