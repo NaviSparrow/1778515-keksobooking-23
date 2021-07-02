@@ -29,10 +29,31 @@ const setFormEnabled = (form, elements, enabled) => {
   }
 };
 
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = '350px';
+  alertContainer.style.right = '350px';
+  alertContainer.style.top = '15px';
+  alertContainer.style.padding = '20px 3px';
+  alertContainer.style.fontSize = '25px';
+  alertContainer.style.color = 'black';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+
+  alertContainer.textContent = message;
+  document.body.appendChild(alertContainer);
+};
+
+const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
+
+
 export {
   getRandomFloat,
   getRandomInteger,
   getRandomArrayElement,
   getRandomArray,
-  setFormEnabled
+  setFormEnabled,
+  showAlert,
+  isEscEvent
 };
