@@ -54,27 +54,29 @@ const advertIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-const createMarker = (advert) => {
-  L.marker(
-    {
-      lat: advert.location.advertLocation.lat,
-      lng: advert.location.advertLocation.lng,
-    },
-    {
-      icon: advertIcon,
-    },
-  ).addTo(advertGroup)
-    .bindPopup(
-      showPopup(advert),
+const createMarkers = (adverts) => {
+  adverts.forEach((advert) => {
+    L.marker(
       {
-        keepInView: true,
+        lat: advert.location.lat,
+        lng: advert.location.lng,
       },
-    );
+      {
+        icon: advertIcon,
+      },
+    ).addTo(advertGroup)
+      .bindPopup(
+        showPopup(advert),
+        {
+          keepInView: true,
+        },
+      );
+  });
 };
 
 export {
   mainPinMarker,
   setOnMapLoad,
   setMapFormEnabled,
-  createMarker
+  createMarkers
 };
