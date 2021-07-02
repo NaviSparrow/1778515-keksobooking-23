@@ -1,4 +1,9 @@
+import { isEscEvent } from './utils.js';
+import { resetForm } from './page.js';
+
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
+const onSuccsessTemplate = document.querySelector('#success').content.querySelector('.success');
+const onErrorTemplate = document.querySelector('#error').content.querySelector('.error');
 
 const getPopupTypeName = (type) => {
   switch (type) {
@@ -18,7 +23,7 @@ const getPopupTypeName = (type) => {
 const updateFeatures = (popuptItem, features) => {
   const popupFeaturesBlock = popuptItem.querySelector('.popup__features');
   const popupFeatures = popupFeaturesBlock.children;
-  if (features.length === 0) {
+  if (!features) {
     return popupFeaturesBlock.classList.add('hidden');
   }
   for (const popupFeature of popupFeatures) {
@@ -34,7 +39,7 @@ const updateFeatures = (popuptItem, features) => {
 const updatePhotos  = (popuptItem, photos) => {
   const popupPhotosBlock = popuptItem.querySelector('.popup__photos');
   const popupPhoto = popupPhotosBlock.querySelector('.popup__photo');
-  if (photos.length === 0) {
+  if (!photos) {
     return popupPhotosBlock.classList.add('hidden');
   }
   popupPhoto.src = photos[0];
@@ -60,4 +65,34 @@ const showPopup = (advert) => {
   return popuptItem;
 };
 
-export {showPopup};
+const removeMessageElement = (message, isSuccsess) => {
+  message.remove();
+  if (isSuccsess) {
+    resetForm();
+  }
+};
+
+const addMessageElement = (message, isSuccsess) => {
+  document.body.insertAdjacentElement('beforeend', message);
+  document.addEventListener('click', () => {
+    removeMessageElement(message, isSuccsess);
+  });
+  document.addEventListener('keydown', (evt) => {
+    if (isEscEvent(evt)) {
+      evt.preventDefault();
+      removeMessageElement(message, isSuccsess);
+    }
+  });
+};
+
+const showSuccsess = () => {
+  const message = onSuccsessTemplate.cloneNode(true);
+  addMessageElement(message, true);
+};
+
+const showError = () => {
+  const message = onErrorTemplate.cloneNode(true);
+  addMessageElement(message, false);
+};
+
+export {showPopup, showSuccsess, showError};
