@@ -1,7 +1,9 @@
-import { showAlert } from './utils.js';
+import { showAlert } from './popup.js';
 
-const getData = (onSuccsess) => {
-  fetch('https://23.javascript.pages.academy/keksobooking/data')
+const KEKSOBOOKING_URL = 'https://23.javascript.pages.academy/keksobooking';
+
+const getData = (onSuccess) => {
+  fetch(`${KEKSOBOOKING_URL}/data`)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -9,15 +11,15 @@ const getData = (onSuccsess) => {
       throw new Error(response.status);
     })
     .then((adverts) => {
-      onSuccsess(adverts);
+      onSuccess(adverts);
     })
     .catch((error) => {
       showAlert(`При загрузке данных с сервера произошла ошибка "${error}"`);
     });
 };
 
-const sendData = (onSuccsess, onFail, body) => {
-  fetch('https://23.javascript.pages.academy/keksobooking',
+const sendData = (onSuccess, onFail, body) => {
+  fetch(KEKSOBOOKING_URL,
     {
       method: 'POST',
       body,
@@ -25,7 +27,7 @@ const sendData = (onSuccsess, onFail, body) => {
   )
     .then((response) => {
       if (response.ok) {
-        onSuccsess();
+        onSuccess();
       } else {
         onFail();
       }

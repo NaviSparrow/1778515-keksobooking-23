@@ -2,8 +2,8 @@ import { isEscEvent } from './utils.js';
 import { resetForm } from './page.js';
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-const onSuccsessTemplate = document.querySelector('#success').content.querySelector('.success');
-const onErrorTemplate = document.querySelector('#error').content.querySelector('.error');
+const SuccessMsgTemplate = document.querySelector('#success').content.querySelector('.success');
+const ErrorMsgTemplate = document.querySelector('#error').content.querySelector('.error');
 
 const getPopupTypeName = (type) => {
   switch (type) {
@@ -65,34 +65,55 @@ const showPopup = (advert) => {
   return popuptItem;
 };
 
-const removeMessageElement = (message, isSuccsess) => {
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = '350px';
+  alertContainer.style.right = '350px';
+  alertContainer.style.top = '15px';
+  alertContainer.style.padding = '20px 3px';
+  alertContainer.style.fontSize = '25px';
+  alertContainer.style.color = 'black';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+
+  alertContainer.textContent = message;
+  document.body.appendChild(alertContainer);
+};
+
+const hideMessage = (message, isSuccess) => {
   message.remove();
-  if (isSuccsess) {
+  if (isSuccess) {
     resetForm();
   }
 };
 
-const addMessageElement = (message, isSuccsess) => {
+const showMessage = (message, isSuccess) => {
   document.body.insertAdjacentElement('beforeend', message);
   document.addEventListener('click', () => {
-    removeMessageElement(message, isSuccsess);
+    hideMessage(message, isSuccess);
   });
   document.addEventListener('keydown', (evt) => {
     if (isEscEvent(evt)) {
       evt.preventDefault();
-      removeMessageElement(message, isSuccsess);
+      hideMessage(message, isSuccess);
     }
   });
 };
 
-const showSuccsess = () => {
-  const message = onSuccsessTemplate.cloneNode(true);
-  addMessageElement(message, true);
+const showSuccessMsg = () => {
+  const message = SuccessMsgTemplate.cloneNode(true);
+  showMessage(message, true);
 };
 
-const showError = () => {
-  const message = onErrorTemplate.cloneNode(true);
-  addMessageElement(message, false);
+const showErrorMsg = () => {
+  const message = ErrorMsgTemplate.cloneNode(true);
+  showMessage(message, false);
 };
 
-export {showPopup, showSuccsess, showError};
+export {
+  showPopup,
+  showSuccessMsg,
+  showErrorMsg,
+  showAlert
+};

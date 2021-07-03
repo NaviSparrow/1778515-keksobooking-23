@@ -3,7 +3,7 @@ import { createMarkers } from './map.js';
 import { setOnMapLoad } from './map.js';
 import { getData } from './fetch.js';
 import { setOnFormSubmit } from './form.js';
-import { showSuccsess } from './popup.js';
+import { showSuccessMsg } from './popup.js';
 import './form.js';
 
 setPageEnabled(false);
@@ -13,4 +13,4 @@ setOnMapLoad(() => {
   getData(createMarkers);
 });
 
-setOnFormSubmit(showSuccsess);
+setOnFormSubmit(showSuccessMsg);

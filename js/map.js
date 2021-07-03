@@ -35,7 +35,7 @@ const setOnMapLoad = (callback) => {
   map.setView({
     lat: 35.68322,
     lng: 139.76901,
-  }, 10);
+  }, 13);
 
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
