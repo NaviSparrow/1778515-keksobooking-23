@@ -1,4 +1,4 @@
-import { showAlert } from './popup.js';
+import { showAlert } from './utils.js';
 
 const KEKSOBOOKING_URL = 'https://23.javascript.pages.academy/keksobooking';
 

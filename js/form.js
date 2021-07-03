@@ -1,7 +1,7 @@
 import { setFormEnabled } from './utils.js';
 import { mainPinMarker } from './map.js';
 import { sendData } from './fetch.js';
-import { showErrorMsg } from './popup.js';
+import { showErrorMsg } from './utils.js';
 import { resetForm } from './page.js';
 
 const HUNDRED_ROOMS = 100;
