@@ -1,15 +1,16 @@
-import {createAdvert} from './data.js';
 import {setPageEnabled} from './page.js';
-import { createMarker } from './map.js';
+import { createMarkers } from './map.js';
 import { setOnMapLoad } from './map.js';
+import { getData } from './fetch.js';
+import { setOnFormSubmit } from './form.js';
+import { showSuccessMsg } from './utils.js';
 import './form.js';
 
 setPageEnabled(false);
 
-const createItemsForMap = () => {
+setOnMapLoad(() => {
   setPageEnabled(true);
-  const similarAdverts = new Array(10).fill(null).map(() => createAdvert());
-  similarAdverts.forEach((advert) => createMarker(advert));
-};
+  getData(createMarkers);
+});
 
-setOnMapLoad(createItemsForMap);
+setOnFormSubmit(showSuccessMsg);

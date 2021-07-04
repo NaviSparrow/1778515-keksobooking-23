@@ -10,24 +10,6 @@ const setMapFormEnabled = (enabled) => {
 
 const map = L.map('map-canvas');
 
-const setOnMapLoad = (callback) => {
-  map.on('load', () => {
-    callback();
-  });
-
-  map.setView({
-    lat: 35.68322,
-    lng: 139.76901,
-  }, 10);
-
-  L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    },
-  ).addTo(map);
-};
-
 const mainPinIcon = L.icon ({
   iconUrl: '../img/main-pin.svg',
   iconSize: [52, 52],
@@ -43,7 +25,28 @@ const mainPinMarker = L.marker(
     draggable: true,
     icon: mainPinIcon,
   },
-).addTo(map);
+);
+
+const setOnMapLoad = (callback) => {
+  map.on('load', () => {
+    callback();
+  });
+
+  map.setView({
+    lat: 35.68322,
+    lng: 139.76901,
+  }, 13);
+
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+  ).addTo(map);
+  mainPinMarker.addTo(map);
+};
+
+const advertGroup = L.layerGroup().addTo(map);
 
 const advertIcon = L.icon({
   iconUrl: '../img/pin.svg',
@@ -51,29 +54,29 @@ const advertIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-const advertGroup = L.layerGroup().addTo(map);
-
-const createMarker = (advert) => {
-  L.marker(
-    {
-      lat: advert.location.advertLocation.lat,
-      lng: advert.location.advertLocation.lng,
-    },
-    {
-      icon: advertIcon,
-    },
-  ).addTo(advertGroup)
-    .bindPopup(
-      showPopup(advert),
+const createMarkers = (adverts) => {
+  adverts.forEach((advert) => {
+    L.marker(
       {
-        keepInView: true,
+        lat: advert.location.lat,
+        lng: advert.location.lng,
       },
-    );
+      {
+        icon: advertIcon,
+      },
+    ).addTo(advertGroup)
+      .bindPopup(
+        showPopup(advert),
+        {
+          keepInView: true,
+        },
+      );
+  });
 };
 
 export {
   mainPinMarker,
   setOnMapLoad,
   setMapFormEnabled,
-  createMarker
+  createMarkers
 };

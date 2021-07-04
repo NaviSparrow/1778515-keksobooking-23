@@ -1,4 +1,9 @@
+import { isEscEvent } from './utils.js';
+import { resetForm } from './page.js';
+
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
+const successMsgTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorMsgTemplate = document.querySelector('#error').content.querySelector('.error');
 
 const getPopupTypeName = (type) => {
   switch (type) {
@@ -18,7 +23,7 @@ const getPopupTypeName = (type) => {
 const updateFeatures = (popuptItem, features) => {
   const popupFeaturesBlock = popuptItem.querySelector('.popup__features');
   const popupFeatures = popupFeaturesBlock.children;
-  if (features.length === 0) {
+  if (!features) {
     return popupFeaturesBlock.classList.add('hidden');
   }
   for (const popupFeature of popupFeatures) {
@@ -34,7 +39,7 @@ const updateFeatures = (popuptItem, features) => {
 const updatePhotos  = (popuptItem, photos) => {
   const popupPhotosBlock = popuptItem.querySelector('.popup__photos');
   const popupPhoto = popupPhotosBlock.querySelector('.popup__photo');
-  if (photos.length === 0) {
+  if (!photos) {
     return popupPhotosBlock.classList.add('hidden');
   }
   popupPhoto.src = photos[0];
@@ -60,4 +65,29 @@ const showPopup = (advert) => {
   return popuptItem;
 };
 
-export {showPopup};
+const hideMessage = (message, isSuccess) => {
+  message.remove();
+  if (isSuccess) {
+    resetForm();
+  }
+};
+
+const showMessage = (message, isSuccess) => {
+  document.body.insertAdjacentElement('beforeend', message);
+  document.addEventListener('click', () => {
+    hideMessage(message, isSuccess);
+  });
+  document.addEventListener('keydown', (evt) => {
+    if (isEscEvent(evt)) {
+      evt.preventDefault();
+      hideMessage(message, isSuccess);
+    }
+  });
+};
+
+export {
+  successMsgTemplate,
+  errorMsgTemplate,
+  showPopup,
+  showMessage
+};
