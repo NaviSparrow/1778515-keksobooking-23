@@ -1,5 +1,4 @@
-import { isEscEvent } from './utils.js';
-import { resetForm } from './page.js';
+import { isEscEvent, options } from './utils.js';
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 const successMsgTemplate = document.querySelector('#success').content.querySelector('.success');
@@ -65,24 +64,31 @@ const showPopup = (advert) => {
   return popuptItem;
 };
 
-const hideMessage = (message, isSuccess) => {
-  message.remove();
-  if (isSuccess) {
-    resetForm();
+const hideMessage = () => {
+  const successMessage = document.querySelector('.success');
+  const errorMessage = document.querySelector('.error');
+  if (successMessage) {
+    successMessage.remove();
+  } else {
+    errorMessage.remove();
   }
 };
 
-const showMessage = (message, isSuccess) => {
+const clickHandler = () => {
+  hideMessage();
+};
+
+const keydownHandler = (evt) => {
+  if (isEscEvent(evt)) {
+    evt.preventDefault();
+    hideMessage();
+  }
+};
+
+const showMessage = (message) => {
   document.body.insertAdjacentElement('beforeend', message);
-  document.addEventListener('click', () => {
-    hideMessage(message, isSuccess);
-  });
-  document.addEventListener('keydown', (evt) => {
-    if (isEscEvent(evt)) {
-      evt.preventDefault();
-      hideMessage(message, isSuccess);
-    }
-  });
+  document.addEventListener('click', clickHandler, options);
+  document.addEventListener('keydown', keydownHandler, options);
 };
 
 export {

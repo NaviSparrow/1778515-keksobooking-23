@@ -1,5 +1,10 @@
 import { successMsgTemplate, errorMsgTemplate, showMessage } from './popup.js';
 
+const RENDER_DELAY = 500;
+const options = {
+  once: true,
+};
+
 const getRandomFloat = (min, max, precision) => {
   if (max <= min || max < 0 || min < 0) {
     return null;
@@ -49,17 +54,27 @@ const showAlert = (message) => {
 
 const showSuccessMsg = () => {
   const message = successMsgTemplate.cloneNode(true);
-  showMessage(message, true);
+  showMessage(message);
 };
 
 const showErrorMsg = () => {
   const message = errorMsgTemplate.cloneNode(true);
-  showMessage(message, false);
+  showMessage(message);
 };
 
 const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
+const debounce = (callback, timeout) => {
+  let timer;
+  return () => {
+    clearTimeout(timer);
+    timer = setTimeout(callback, timeout);
+  };
+};
+
 export {
+  RENDER_DELAY,
+  options,
   getRandomFloat,
   getRandomInteger,
   getRandomArrayElement,
@@ -68,5 +83,6 @@ export {
   showAlert,
   showSuccessMsg,
   showErrorMsg,
-  isEscEvent
+  isEscEvent,
+  debounce
 };

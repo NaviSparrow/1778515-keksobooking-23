@@ -1,8 +1,8 @@
 import { setFormEnabled } from './utils.js';
-import { mainPinMarker } from './map.js';
+import { mainPinMarker} from './map.js';
 import { sendData } from './fetch.js';
 import { showErrorMsg } from './utils.js';
-import { resetForm } from './page.js';
+import { resetPage } from './page.js';
 
 const HUNDRED_ROOMS = 100;
 const ZERO_CAPACITY = 0;
@@ -114,7 +114,7 @@ mainPinMarker.on('moveend', (evt) => {
 
 noticeFormResetBtn.addEventListener('click', (evt) => {
   evt.preventDefault();
-  resetForm();
+  resetPage();
 });
 
 export {
