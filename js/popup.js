@@ -69,6 +69,7 @@ const hideMessage = () => {
   const errorMessage = document.querySelector('.error');
   if (successMessage) {
     successMessage.remove();
+    //resetPage(); здесь, как мне казалось, логично её вызвать
   } else {
     errorMessage.remove();
   }
