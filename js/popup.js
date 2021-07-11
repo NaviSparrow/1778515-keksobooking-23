@@ -1,3 +1,4 @@
+import { resetPage } from './page.js';
 import { isEscEvent, options } from './utils.js';
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
@@ -69,7 +70,7 @@ const hideMessage = () => {
   const errorMessage = document.querySelector('.error');
   if (successMessage) {
     successMessage.remove();
-    //resetPage(); здесь, как мне казалось, логично её вызвать
+    resetPage(); //всё ещё не придумал места лучше, пока что вызываю здесь
   } else {
     errorMessage.remove();
   }

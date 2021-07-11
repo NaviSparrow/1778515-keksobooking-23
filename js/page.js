@@ -8,7 +8,7 @@ const setPageEnabled = (enabled) => {
   setMapFormEnabled(enabled);
 };
 
-const resetPage = () => {  //где её вызвать и как мне заного отрисовать маркеры после сброса фильтров карты
+const resetPage = () => { //как заного отрисовать маркеры после сброса фильтров карты
   noticeForm.reset();
   mapFiltersForm.reset();
   mainPinMarker.setLatLng({

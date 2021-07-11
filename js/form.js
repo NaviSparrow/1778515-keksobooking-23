@@ -64,6 +64,16 @@ noticeFormPrice.addEventListener('invalid', () => {
   }
 });
 
+
+for (const option of noticeFormCapacity) {
+  if (parseInt(noticeFormRooms.selectedOptions[0].value, 10) === parseInt(option.value, 10)) {
+    noticeFormCapacity.value = option.value;
+    option.removeAttribute('disabled', 'disabled');
+  } else {
+    option.setAttribute('disabled', 'disabled');
+  }
+}
+
 noticeFormRooms.addEventListener('change', () => {
   const roomsInt = parseInt(noticeFormRooms.value, 10);
   for (const option of noticeFormCapacity) {
@@ -73,6 +83,7 @@ noticeFormRooms.addEventListener('change', () => {
         option.setAttribute('disabled', 'disabled');
       } else {
         option.removeAttribute('disabled', 'disabled');
+        noticeFormCapacity.value = option.value;
       }
     }
     else if (optionInt > roomsInt || optionInt === ZERO_CAPACITY) {
@@ -90,6 +101,7 @@ noticeFormType.addEventListener('change', () => {
   noticeFormPrice.min = PRICE_FOR_TYPE[noticeFormType.value];
 });
 
+noticeFormTimein.value = noticeFormTimein.selectedOptions[0].value;
 noticeFormTimein.addEventListener('change', () => {
   noticeFormTimeout.value = noticeFormTimein.value;
 });
