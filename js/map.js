@@ -64,36 +64,21 @@ const advertIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
+const changeMarkersOnMap = (callback) => {
+  advertGroup.clearLayers();
+  callback();
+};
+
 const setOnFiltersChange = (callback) => {
-  typeFilter.addEventListener('change', debounce(
-    () => {
-      advertGroup.clearLayers();
-      callback();
-    }, RENDER_DELAY));
+  typeFilter.addEventListener('change', debounce(() => { changeMarkersOnMap(callback); }, RENDER_DELAY));
 
-  priceFilter.addEventListener('change', debounce(
-    () => {
-      advertGroup.clearLayers();
-      callback();
-    }, RENDER_DELAY));
+  priceFilter.addEventListener('change', debounce(() => { changeMarkersOnMap(callback); }, RENDER_DELAY));
 
-  roomsFilter.addEventListener('change', debounce(
-    () => {
-      advertGroup.clearLayers();
-      callback();
-    }, RENDER_DELAY));
+  roomsFilter.addEventListener('change', debounce(() => { changeMarkersOnMap(callback); }, RENDER_DELAY));
 
-  guestsFilter.addEventListener('change', debounce(
-    () => {
-      advertGroup.clearLayers();
-      callback();
-    }, RENDER_DELAY));
+  guestsFilter.addEventListener('change', debounce(() => { changeMarkersOnMap(callback); }, RENDER_DELAY));
 
-  mapFeatures.addEventListener('change', debounce(
-    () => {
-      advertGroup.clearLayers();
-      callback();
-    }, RENDER_DELAY));
+  mapFeatures.addEventListener('change', debounce(() => { changeMarkersOnMap(callback); }, RENDER_DELAY));
 };
 
 const isValueAny = (filter) => {
