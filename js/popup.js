@@ -1,9 +1,4 @@
-import { isEscEvent } from './utils.js';
-import { resetForm } from './page.js';
-
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-const successMsgTemplate = document.querySelector('#success').content.querySelector('.success');
-const errorMsgTemplate = document.querySelector('#error').content.querySelector('.error');
 
 const getPopupTypeName = (type) => {
   switch (type) {
@@ -65,29 +60,4 @@ const showPopup = (advert) => {
   return popuptItem;
 };
 
-const hideMessage = (message, isSuccess) => {
-  message.remove();
-  if (isSuccess) {
-    resetForm();
-  }
-};
-
-const showMessage = (message, isSuccess) => {
-  document.body.insertAdjacentElement('beforeend', message);
-  document.addEventListener('click', () => {
-    hideMessage(message, isSuccess);
-  });
-  document.addEventListener('keydown', (evt) => {
-    if (isEscEvent(evt)) {
-      evt.preventDefault();
-      hideMessage(message, isSuccess);
-    }
-  });
-};
-
-export {
-  successMsgTemplate,
-  errorMsgTemplate,
-  showPopup,
-  showMessage
-};
+export {showPopup};

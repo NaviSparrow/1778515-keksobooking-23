@@ -1,8 +1,8 @@
-import { showAlert } from './utils.js';
+import { showAlert } from './notification.js';
 
 const KEKSOBOOKING_URL = 'https://23.javascript.pages.academy/keksobooking';
 
-const getData = (onSuccess) => {
+const fetchAdverts = (onSuccess) => {
   fetch(`${KEKSOBOOKING_URL}/data`)
     .then((response) => {
       if (response.ok) {
@@ -10,21 +10,16 @@ const getData = (onSuccess) => {
       }
       throw new Error(response.status);
     })
-    .then((adverts) => {
-      onSuccess(adverts);
-    })
-    .catch((error) => {
-      showAlert(`При загрузке данных с сервера произошла ошибка "${error}"`);
-    });
+    .then((adverts) => onSuccess(adverts))
+    .catch((error) => showAlert(`При загрузке данных с сервера произошла ошибка: "${error}"`));
 };
 
-const sendData = (onSuccess, onFail, body) => {
+const saveAdvert = (body, onSuccess, onFail) => {
   fetch(KEKSOBOOKING_URL,
     {
       method: 'POST',
       body,
-    },
-  )
+    })
     .then((response) => {
       if (response.ok) {
         onSuccess();
@@ -32,9 +27,7 @@ const sendData = (onSuccess, onFail, body) => {
         onFail();
       }
     })
-    .catch(() => {
-      onFail();
-    });
+    .catch(() => onFail());
 };
 
-export {getData, sendData};
+export { fetchAdverts, saveAdvert };
