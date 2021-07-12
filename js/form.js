@@ -1,12 +1,9 @@
-import { setFormEnabled } from './utils.js';
-import { mainPinMarker} from './map.js';
-import { sendData } from './fetch.js';
-import { showErrorMsg } from './utils.js';
-import { resetPage } from './page.js';
+import { setFormEnabled } from './dom-utils.js';
+import { getMainPinLocation, setMainPinMoveHandler } from './map.js';
 
 const HUNDRED_ROOMS = 100;
 const ZERO_CAPACITY = 0;
-const COORDINATES_LENGTH = 5;
+
 const PRICE_FOR_TYPE = {
   bungalow: '0',
   flat: '1000',
@@ -15,124 +12,136 @@ const PRICE_FOR_TYPE = {
   palace: '10000',
 };
 
-const noticeForm = document.querySelector('.ad-form');
-const noticeFormElements = document.querySelectorAll('.ad-form__element');
-const noticeFormPrice = document.querySelector('#price');
-const noticeFormTitle = document.querySelector('#title');
-const noticeFormAddress = document.querySelector('#address');
-const noticeFormRooms = document.querySelector('#room_number');
-const noticeFormCapacity = document.querySelector('#capacity');
-const noticeFormType = document.querySelector('#type');
-const noticeFormTimein = document.querySelector('#timein');
-const noticeFormTimeout = document.querySelector('#timeout');
-const noticeFormResetBtn = document.querySelector('.ad-form__reset');
+const adForm = document.querySelector('.ad-form');
+const formFields = adForm.querySelectorAll('.ad-form__element');
+const priceField = adForm.querySelector('#price');
+const titleField = adForm.querySelector('#title');
+const addressField = adForm.querySelector('#address');
+const roomsField = adForm.querySelector('#room_number');
+const capacityField = adForm.querySelector('#capacity');
+const typeField = adForm.querySelector('#type');
+const checkInField = adForm.querySelector('#timein');
+const checkOutField = adForm.querySelector('#timeout');
+const resetButton = adForm.querySelector('.ad-form__reset');
 
-const setOfferFormEnabled = (enabled) => {
-  setFormEnabled(noticeForm, noticeFormElements, enabled);
-};
+const formatLocation = (location) => `${location.lat}, ${location.lng}`;
 
-const setOnFormSubmit = (onSuccess) => {
-  noticeForm.addEventListener('submit', (evt) => {
+const setOfferFormEnabled = (enabled) => setFormEnabled(adForm, formFields, enabled, 'ad-form');
+
+const setFormSubmitHandler = (submitHandler) => {
+  adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    sendData(
-      onSuccess,
-      showErrorMsg,
-      new FormData(evt.target),
-    );
+    submitHandler(new FormData(evt.target));
   });
 };
 
-noticeFormTitle.addEventListener('invalid', () => {
-  if (noticeFormTitle.validity.tooShort) {
-    noticeFormTitle.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
-  } else if (noticeFormTitle.validity.tooLong) {
-    noticeFormTitle.setCustomValidity('Заголовок должен состоять максимум из 100 символов');
-  } else if (noticeFormTitle.validity.valueMissing) {
-    noticeFormTitle.setCustomValidity('Обязательное поле для заполнения');
+const resetAdForm = () => {
+  adForm.reset();
+  addressField.value = formatLocation(getMainPinLocation());
+};
+
+const setFormResetHandler = (resetHandler) => {
+  resetButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    resetHandler();
+    resetAdForm();
+  });
+};
+
+const updatePriceField = () => {
+  const minPrice = PRICE_FOR_TYPE[typeField.selectedOptions[0].value];
+  priceField.placeholder = minPrice;
+  priceField.min = minPrice;
+};
+
+const updateCapacityField = () => {
+  for (const option of capacityField) {
+    if (parseInt(roomsField.selectedOptions[0].value, 10) === parseInt(option.value, 10)) {
+      capacityField.value = option.value;
+      option.removeAttribute('disabled', 'disabled');
+    } else {
+      option.setAttribute('disabled', 'disabled');
+    }
+  }
+};
+
+const updateCheckInOutField = () => {
+  checkInField.value = checkOutField.selectedOptions[0].value;
+};
+
+const checkInOutChangeListener = (evt) => {
+  const newCheckValue = evt.target.value;
+  checkInField.value = newCheckValue;
+  checkOutField.value = newCheckValue;
+};
+
+titleField.addEventListener('invalid', () => {
+  if (titleField.validity.tooShort) {
+    titleField.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
+  } else if (titleField.validity.tooLong) {
+    titleField.setCustomValidity('Заголовок должен состоять максимум из 100 символов');
+  } else if (titleField.validity.valueMissing) {
+    titleField.setCustomValidity('Обязательное поле для заполнения');
   } else {
-    noticeFormTitle.setCustomValidity('');
+    titleField.setCustomValidity('');
   }
 });
 
-noticeFormPrice.addEventListener('invalid', () => {
-  if (noticeFormPrice.validity.rangeUnderflow) {
-    noticeFormPrice.setCustomValidity(`Минимальная цена ${noticeFormPrice.min}`);
-  } else if (noticeFormPrice.validity.rangeOverflow) {
-    noticeFormPrice.setCustomValidity(`Максимальная цена ${noticeFormPrice.max}`);
+priceField.addEventListener('invalid', () => {
+  if (priceField.validity.rangeUnderflow) {
+    priceField.setCustomValidity(`Минимальная цена ${priceField.min}`);
+  } else if (priceField.validity.rangeOverflow) {
+    priceField.setCustomValidity(`Максимальная цена ${priceField.max}`);
   } else {
-    noticeFormPrice.setCustomValidity('');
+    priceField.setCustomValidity('');
   }
 });
 
-
-for (const option of noticeFormCapacity) {
-  if (parseInt(noticeFormRooms.selectedOptions[0].value, 10) === parseInt(option.value, 10)) {
-    noticeFormCapacity.value = option.value;
-    option.removeAttribute('disabled', 'disabled');
-  } else {
-    option.setAttribute('disabled', 'disabled');
-  }
-}
-
-noticeFormRooms.addEventListener('change', () => {
-  const roomsInt = parseInt(noticeFormRooms.value, 10);
-  for (const option of noticeFormCapacity) {
+roomsField.addEventListener('change', () => {
+  const roomsInt = parseInt(roomsField.value, 10);
+  for (const option of capacityField) {
     const optionInt = parseInt(option.value, 10);
     if (roomsInt === HUNDRED_ROOMS) {
-      if (optionInt !== ZERO_CAPACITY) {
+      if (optionInt !== ZERO_CAPACITY) { //вместо setElementEnabled я пока оставил это условие. Что бы при выборе 100 комнат - в поле "кол-ва" мест отображался единственно возможный вариант.
         option.setAttribute('disabled', 'disabled');
       } else {
         option.removeAttribute('disabled', 'disabled');
-        noticeFormCapacity.value = option.value;
+        capacityField.value = option.value; //в поле выбирается единственный вариант
       }
     }
     else if (optionInt > roomsInt || optionInt === ZERO_CAPACITY) {
       option.setAttribute('disabled', 'disabled');
     } else {
       option.removeAttribute('disabled', 'disabled');
+      capacityField.value = option.value;
     }
   }
 });
 
-noticeFormPrice.placeholder = PRICE_FOR_TYPE[noticeFormType.selectedOptions[0].value];
-noticeFormPrice.min = PRICE_FOR_TYPE[noticeFormType.selectedOptions[0].value];
-noticeFormType.addEventListener('change', () => {
-  noticeFormPrice.placeholder = PRICE_FOR_TYPE[noticeFormType.value];
-  noticeFormPrice.min = PRICE_FOR_TYPE[noticeFormType.value];
-});
+updateCapacityField(); // Функция апдейт поля "кол-ва мест". Нужна что бы при загрузке страницы изначально к полю "кол-ва мест" применялись ограничения по вариантам, т.к ограничения накладываются только при событии "change"
+updatePriceField();
+typeField.addEventListener('change', () => updatePriceField());
 
-noticeFormTimein.value = noticeFormTimein.selectedOptions[0].value;
-noticeFormTimein.addEventListener('change', () => {
-  noticeFormTimeout.value = noticeFormTimein.value;
-});
+updateCheckInOutField(); //Смысл такой же как и в updateCapacityField, только для полей чекин/чекаут
+checkInField.addEventListener('change', checkInOutChangeListener);
+checkOutField.addEventListener('change', checkInOutChangeListener);
 
-noticeFormTimeout.addEventListener('change', () => {
-  noticeFormTimein.value = noticeFormTimeout.value;
-});
-
-noticeFormAddress.addEventListener('invalid', () => {
-  if (noticeFormAddress.validity.valueMissing) {
-    noticeFormAddress.setCustomValidity('Обязательное поле для заполнения');
+addressField.addEventListener('invalid', () => {
+  if (addressField.validity.valueMissing) {
+    addressField.setCustomValidity('Обязательное поле для заполнения');
   } else {
-    noticeFormAddress.setCustomValidity('');
+    addressField.setCustomValidity('');
   }
 });
 
-noticeFormAddress.value = `${mainPinMarker._latlng.lat}, ${mainPinMarker._latlng.lng}`;
-mainPinMarker.on('moveend', (evt) => {
-  const coordinates = evt.target.getLatLng();
-  noticeFormAddress.value = `${Number(coordinates.lat.toFixed(COORDINATES_LENGTH))}, ${Number(coordinates.lng.toFixed(COORDINATES_LENGTH))}`;
-});
-
-noticeFormResetBtn.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  resetPage();
+addressField.value = formatLocation(getMainPinLocation());
+setMainPinMoveHandler((location) => {
+  addressField.value = formatLocation(location);
 });
 
 export {
-  noticeForm,
-  noticeFormAddress,
-  noticeFormResetBtn,
+  resetAdForm,
   setOfferFormEnabled,
-  setOnFormSubmit
+  setFormSubmitHandler,
+  setFormResetHandler
 };

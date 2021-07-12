@@ -1,9 +1,4 @@
-import { resetPage } from './page.js';
-import { isEscEvent, options } from './utils.js';
-
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-const successMsgTemplate = document.querySelector('#success').content.querySelector('.success');
-const errorMsgTemplate = document.querySelector('#error').content.querySelector('.error');
 
 const getPopupTypeName = (type) => {
   switch (type) {
@@ -65,37 +60,4 @@ const showPopup = (advert) => {
   return popuptItem;
 };
 
-const hideMessage = () => {
-  const successMessage = document.querySelector('.success');
-  const errorMessage = document.querySelector('.error');
-  if (successMessage) {
-    successMessage.remove();
-    resetPage(); //всё ещё не придумал места лучше, пока что вызываю здесь
-  } else {
-    errorMessage.remove();
-  }
-};
-
-const clickHandler = () => {
-  hideMessage();
-};
-
-const keydownHandler = (evt) => {
-  if (isEscEvent(evt)) {
-    evt.preventDefault();
-    hideMessage();
-  }
-};
-
-const showMessage = (message) => {
-  document.body.insertAdjacentElement('beforeend', message);
-  document.addEventListener('click', clickHandler, options);
-  document.addEventListener('keydown', keydownHandler, options);
-};
-
-export {
-  successMsgTemplate,
-  errorMsgTemplate,
-  showPopup,
-  showMessage
-};
+export {showPopup};

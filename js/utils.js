@@ -1,10 +1,3 @@
-import { successMsgTemplate, errorMsgTemplate, showMessage } from './popup.js';
-
-const RENDER_DELAY = 500;
-const options = {
-  once: true,
-};
-
 const getRandomFloat = (min, max, precision) => {
   if (max <= min || max < 0 || min < 0) {
     return null;
@@ -22,48 +15,6 @@ const getRandomArray = (array) => {
   return newArray.slice(0, getRandomInteger(0, newArray.length - 1));
 };
 
-const setFormEnabled = (form, elements, enabled) => {
-  if (enabled) {
-    form.classList.remove('ad-form--disabled');
-    for (const element of elements) {
-      element.removeAttribute('disabled', 'disabled');
-    }
-  } else {
-    form.classList.add('ad-form--disabled');
-    for (const element of elements) {
-      element.setAttribute('disabled', 'disabled');
-    }
-  }
-};
-
-const showAlert = (message) => {
-  const alertContainer = document.createElement('div');
-  alertContainer.style.position = 'absolute';
-  alertContainer.style.left = '350px';
-  alertContainer.style.right = '350px';
-  alertContainer.style.top = '15px';
-  alertContainer.style.padding = '20px 3px';
-  alertContainer.style.fontSize = '25px';
-  alertContainer.style.color = 'black';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.backgroundColor = 'red';
-
-  alertContainer.textContent = message;
-  document.body.appendChild(alertContainer);
-};
-
-const showSuccessMsg = () => {
-  const message = successMsgTemplate.cloneNode(true);
-  showMessage(message);
-};
-
-const showErrorMsg = () => {
-  const message = errorMsgTemplate.cloneNode(true);
-  showMessage(message);
-};
-
-const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
-
 const debounce = (callback, timeout) => {
   let timer;
   return () => {
@@ -73,16 +24,9 @@ const debounce = (callback, timeout) => {
 };
 
 export {
-  RENDER_DELAY,
-  options,
   getRandomFloat,
   getRandomInteger,
   getRandomArrayElement,
   getRandomArray,
-  setFormEnabled,
-  showAlert,
-  showSuccessMsg,
-  showErrorMsg,
-  isEscEvent,
   debounce
 };
