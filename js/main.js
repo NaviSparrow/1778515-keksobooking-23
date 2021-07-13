@@ -2,6 +2,7 @@ import { setMapLoadHandler, showAdvertMarkers, setMapFormEnabled, resetMap } fro
 import { fetchAdverts, saveAdvert } from './api.js';
 import { setFormResetHandler, setFormSubmitHandler, setOfferFormEnabled, resetAdForm } from './form.js';
 import { showSuccess, showError } from './notification.js';
+import './avatar.js';
 
 let adverts = [];
 
@@ -17,7 +18,7 @@ setMapLoadHandler(() => {
 
   setFormSubmitHandler((newAdvert) => {
     saveAdvert(newAdvert, () => {
-      resetMap(adverts); //поменял местами 20 и 21 строчки, потому что при успешной отправке оффера мы спрашивали координаты главной метки в resetAdForm, до того как она встала обратно на место
+      resetMap(adverts);
       resetAdForm();
       showSuccess();
     }, showError);

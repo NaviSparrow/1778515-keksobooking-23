@@ -1,5 +1,5 @@
-import { setFormEnabled } from './dom-utils.js';
-import { getMainPinLocation, setMainPinMoveHandler } from './map.js';
+import { setElementEnabled, setFormEnabled } from './dom-utils.js';
+import {DEFAULT_MAP_LOCATION, getMainPinLocation, setMainPinMoveHandler } from './map.js';
 
 const HUNDRED_ROOMS = 100;
 const ZERO_CAPACITY = 0;
@@ -24,9 +24,9 @@ const checkInField = adForm.querySelector('#timein');
 const checkOutField = adForm.querySelector('#timeout');
 const resetButton = adForm.querySelector('.ad-form__reset');
 
-const formatLocation = (location) => `${location.lat}, ${location.lng}`;
-
 const setOfferFormEnabled = (enabled) => setFormEnabled(adForm, formFields, enabled, 'ad-form');
+
+const formatLocation = (location) => `${location.lat}, ${location.lng}`;
 
 const setFormSubmitHandler = (submitHandler) => {
   adForm.addEventListener('submit', (evt) => {
@@ -37,42 +37,15 @@ const setFormSubmitHandler = (submitHandler) => {
 
 const resetAdForm = () => {
   adForm.reset();
-  addressField.value = formatLocation(getMainPinLocation());
+  addressField.value = formatLocation(DEFAULT_MAP_LOCATION);
 };
 
 const setFormResetHandler = (resetHandler) => {
   resetButton.addEventListener('click', (evt) => {
     evt.preventDefault();
-    resetHandler();
     resetAdForm();
+    resetHandler();
   });
-};
-
-const updatePriceField = () => {
-  const minPrice = PRICE_FOR_TYPE[typeField.selectedOptions[0].value];
-  priceField.placeholder = minPrice;
-  priceField.min = minPrice;
-};
-
-const updateCapacityField = () => {
-  for (const option of capacityField) {
-    if (parseInt(roomsField.selectedOptions[0].value, 10) === parseInt(option.value, 10)) {
-      capacityField.value = option.value;
-      option.removeAttribute('disabled', 'disabled');
-    } else {
-      option.setAttribute('disabled', 'disabled');
-    }
-  }
-};
-
-const updateCheckInOutField = () => {
-  checkInField.value = checkOutField.selectedOptions[0].value;
-};
-
-const checkInOutChangeListener = (evt) => {
-  const newCheckValue = evt.target.value;
-  checkInField.value = newCheckValue;
-  checkOutField.value = newCheckValue;
 };
 
 titleField.addEventListener('invalid', () => {
@@ -97,35 +70,6 @@ priceField.addEventListener('invalid', () => {
   }
 });
 
-roomsField.addEventListener('change', () => {
-  const roomsInt = parseInt(roomsField.value, 10);
-  for (const option of capacityField) {
-    const optionInt = parseInt(option.value, 10);
-    if (roomsInt === HUNDRED_ROOMS) {
-      if (optionInt !== ZERO_CAPACITY) { //вместо setElementEnabled я пока оставил это условие. Что бы при выборе 100 комнат - в поле "кол-ва" мест отображался единственно возможный вариант.
-        option.setAttribute('disabled', 'disabled');
-      } else {
-        option.removeAttribute('disabled', 'disabled');
-        capacityField.value = option.value; //в поле выбирается единственный вариант
-      }
-    }
-    else if (optionInt > roomsInt || optionInt === ZERO_CAPACITY) {
-      option.setAttribute('disabled', 'disabled');
-    } else {
-      option.removeAttribute('disabled', 'disabled');
-      capacityField.value = option.value;
-    }
-  }
-});
-
-updateCapacityField(); // Функция апдейт поля "кол-ва мест". Нужна что бы при загрузке страницы изначально к полю "кол-ва мест" применялись ограничения по вариантам, т.к ограничения накладываются только при событии "change"
-updatePriceField();
-typeField.addEventListener('change', () => updatePriceField());
-
-updateCheckInOutField(); //Смысл такой же как и в updateCapacityField, только для полей чекин/чекаут
-checkInField.addEventListener('change', checkInOutChangeListener);
-checkOutField.addEventListener('change', checkInOutChangeListener);
-
 addressField.addEventListener('invalid', () => {
   if (addressField.validity.valueMissing) {
     addressField.setCustomValidity('Обязательное поле для заполнения');
@@ -133,6 +77,54 @@ addressField.addEventListener('invalid', () => {
     addressField.setCustomValidity('');
   }
 });
+
+const updatePriceField = () => {
+  const typeSelectedOption = typeField.selectedOptions[0].value;
+  const minPrice = PRICE_FOR_TYPE[typeSelectedOption];
+  priceField.placeholder = minPrice;
+  priceField.min = minPrice;
+};
+
+const updateCapacityField = () => {
+  const roomsSelectedOption = parseInt(roomsField.selectedOptions[0].value, 10);
+  for (const option of capacityField) {
+    const intOption = parseInt(option.value, 10);
+    setElementEnabled(option, roomsSelectedOption === intOption);
+  }
+};
+
+const updateCheckInOutField = () => {
+  const checkOutSelectedOption = checkOutField.selectedOptions[0].value;
+  checkInField.value = checkOutSelectedOption;
+};
+
+const checkInOutChangeListener = (evt) => {
+  const newCheckValue = evt.target.value;
+  checkInField.value = newCheckValue;
+  checkOutField.value = newCheckValue;
+};
+
+const roomsChangeListener = () => {
+  const roomsInt = parseInt(roomsField.value, 10);
+  for (const option of capacityField) {
+    const optionInt = parseInt(option.value, 10);
+    if (roomsInt === HUNDRED_ROOMS) {
+      setElementEnabled(option, optionInt === ZERO_CAPACITY);
+    } else {
+      setElementEnabled(option, optionInt !== ZERO_CAPACITY);
+      setElementEnabled(option, optionInt <= roomsInt && optionInt !== ZERO_CAPACITY);
+    }
+  }
+};
+
+roomsField.addEventListener('change', roomsChangeListener);
+typeField.addEventListener('change', () => updatePriceField());
+checkInField.addEventListener('change', checkInOutChangeListener);
+checkOutField.addEventListener('change', checkInOutChangeListener);
+
+updateCapacityField();
+updatePriceField();
+updateCheckInOutField();
 
 addressField.value = formatLocation(getMainPinLocation());
 setMainPinMoveHandler((location) => {
