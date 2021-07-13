@@ -77,7 +77,6 @@ const isSuitableAdvertPrice = (advert) => {
   if (isAnyFilterValue(priceFilter)) {
     return true;
   }
-  // TODO: переписать на switch -----> переписал на switch
   switch (priceFilter.value) {
     case 'middle':
       return advert.offer.price >= MIN_PRICE && advert.offer.price <= MAX_PRICE;
@@ -181,15 +180,13 @@ const setMainPinMoveHandler = (moveHandler) => {
 
 const resetMap = (adverts) => {
   mapFiltersForm.reset();
-  renderMarkers(filterAdverts(adverts));  //без filterAdverts отрисовывались все 50 офферов при сбросе
-  mainPinMarker.setLatLng({ //добавил что бы метка возвращалась обратно при сбросе
-    lat: 35.68322,
-    lng: 139.76901,
-  });
   map.setView(DEFAULT_MAP_LOCATION, MAP_ZOOM);
+  mainPinMarker.setLatLng(DEFAULT_MAP_LOCATION);
+  renderMarkers(filterAdverts(adverts));
 };
 
 export {
+  DEFAULT_MAP_LOCATION,
   setMapLoadHandler,
   setMapFormEnabled,
   showAdvertMarkers,

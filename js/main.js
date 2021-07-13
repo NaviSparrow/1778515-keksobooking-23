@@ -17,7 +17,7 @@ setMapLoadHandler(() => {
 
   setFormSubmitHandler((newAdvert) => {
     saveAdvert(newAdvert, () => {
-      resetMap(adverts); //поменял местами 20 и 21 строчки, потому что при успешной отправке оффера мы спрашивали координаты главной метки в resetAdForm, до того как она встала обратно на место
+      resetMap(adverts);
       resetAdForm();
       showSuccess();
     }, showError);

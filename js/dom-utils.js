@@ -15,13 +15,15 @@ const setFormEnabled = (form, elements, enabled, className) => {
   } else {
     form.classList.add(`${className}--disabled`);
     for (const element of elements) {
-      setElementEnabled(element, enabled);    }
+      setElementEnabled(element, enabled);
+    }
   }
 };
 
 const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
 export {
+  setElementEnabled,
   setFormEnabled,
   isEscEvent
 };
