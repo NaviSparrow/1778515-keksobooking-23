@@ -1,5 +1,6 @@
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-
+const IMAGE_WIDTH = 70;
+const IMAGE_HEIGHT = 70;
 const avatarPhoto = document.querySelector('.ad-form__field input[type=file]');
 const avatarPreview = document.querySelector('.ad-form-header__preview img');
 
@@ -23,8 +24,8 @@ const photoChangeListener = (photo, previewImage) => {
 const createImage = () => {
   const image = document.createElement('img');
   image.src = '';
-  image.width = 70;
-  image.height = 70;
+  image.width = IMAGE_WIDTH;
+  image.height = IMAGE_HEIGHT;
   image.alt = 'Фото жилья';
   housePreview.appendChild(image);
 };

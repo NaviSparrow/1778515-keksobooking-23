@@ -1,4 +1,4 @@
-import { setElementEnabled, setFormEnabled } from './dom-utils.js';
+import { setElementEnabled, setFormEnabled } from './utils.js';
 import {DEFAULT_MAP_LOCATION, getMainPinLocation, setMainPinMoveHandler } from './map.js';
 
 const HUNDRED_ROOMS = 100;
@@ -70,6 +70,7 @@ priceField.addEventListener('invalid', () => {
   }
 });
 
+addressField.setAttribute('readOnly', true);
 addressField.addEventListener('invalid', () => {
   if (addressField.validity.valueMissing) {
     addressField.setCustomValidity('Обязательное поле для заполнения');
@@ -93,10 +94,7 @@ const updateCapacityField = () => {
   }
 };
 
-const updateCheckInOutField = () => {
-  const checkOutSelectedOption = checkOutField.selectedOptions[0].value;
-  checkInField.value = checkOutSelectedOption;
-};
+const updateCheckInOutField = () => { checkInField.value = checkOutField.selectedOptions[0].value; };
 
 const checkInOutChangeListener = (evt) => {
   const newCheckValue = evt.target.value;
@@ -130,6 +128,7 @@ addressField.value = formatLocation(getMainPinLocation());
 setMainPinMoveHandler((location) => {
   addressField.value = formatLocation(location);
 });
+
 
 export {
   resetAdForm,

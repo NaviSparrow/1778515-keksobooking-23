@@ -46,18 +46,18 @@ const updatePhotos  = (popuptItem, photos) => {
 };
 
 const showPopup = (advert) => {
-  const popuptItem = cardTemplate.cloneNode(true);
-  popuptItem.querySelector('.popup__title').textContent = advert.offer.title;
-  popuptItem.querySelector('.popup__text--address').textContent = advert.offer.address;
-  popuptItem.querySelector('.popup__text--price').textContent = `${advert.offer.price}₽/ночь`;
-  popuptItem.querySelector('.popup__type').textContent = getPopupTypeName(advert.offer.type);
-  popuptItem.querySelector('.popup__text--capacity').textContent = `${advert.offer.rooms} комнаты для ${advert.offer.guests}`;
-  popuptItem.querySelector('.popup__text--time').textContent = `Заезд после ${advert.offer.checkin}, выезд до ${advert.offer.checkout}`;
-  updateFeatures(popuptItem, advert.offer.features);
-  popuptItem.querySelector('.popup__description').textContent = advert.offer.description;
-  updatePhotos(popuptItem, advert.offer.photos);
-  popuptItem.querySelector('.popup__avatar').src = advert.author.avatar;
-  return popuptItem;
+  const popupItem = cardTemplate.cloneNode(true);
+  popupItem.querySelector('.popup__title').textContent = advert.offer.title;
+  popupItem.querySelector('.popup__text--address').textContent = advert.offer.address;
+  popupItem.querySelector('.popup__text--price').textContent = `${advert.offer.price}₽/ночь`;
+  popupItem.querySelector('.popup__type').textContent = getPopupTypeName(advert.offer.type);
+  popupItem.querySelector('.popup__text--capacity').textContent = `${advert.offer.rooms} комнаты для ${advert.offer.guests}`;
+  popupItem.querySelector('.popup__text--time').textContent = `Заезд после ${advert.offer.checkin}, выезд до ${advert.offer.checkout}`;
+  updateFeatures(popupItem, advert.offer.features);
+  popupItem.querySelector('.popup__description').textContent = advert.offer.description;
+  updatePhotos(popupItem, advert.offer.photos);
+  popupItem.querySelector('.popup__avatar').src = advert.author.avatar;
+  return popupItem;
 };
 
 export {showPopup};

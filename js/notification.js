@@ -1,5 +1,4 @@
-
-import { isEscEvent } from './dom-utils.js';
+import { isEscEvent } from './utils.js';
 
 const successMsgTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorMsgTemplate = document.querySelector('#error').content.querySelector('.error');
