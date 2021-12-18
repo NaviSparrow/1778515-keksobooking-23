@@ -6,11 +6,11 @@
 ### Stack for this project:
 * JavaScript
 * Leaflet
-* fetch
+* REST API
 ---
 
-On this project I was creating logic on JavaScript, worked with form and validation, worked with open source map "Leaflet". You can review code in [here](https://github.com/NaviSparrow/1778515-keksobooking-23/tree/master/js)
-### You can run this project locally just do:
+On this project I was creating logic on JavaScript, worked with forms and validation as well as with open source map "Leaflet". You can review the code [here](https://github.com/NaviSparrow/1778515-keksobooking-23/tree/master/js)
+### To run this project locally:
 
 #### 1. Clone branch `master` with the `git@github.com:NaviSparrow/1778515-keksobooking-23.git`
 
