@@ -1,6 +1,6 @@
 # PET PROJECT [«Keksobooking»](https://1778515-keksobooking-23.vercel.app/)
 
-<img width="769" alt="keksobooking app" src="https://github.com/NaviSparrow/1778515-keksobooking-23/tree/master/img/keksobooking_img.png">
+<img width="769" alt="keksobooking app" src="https://github.com/NaviSparrow/1778515-keksobooking-23/blob/master/img/keksobooking_img.png?raw=true">
 
 [Here](https://github.com/NaviSparrow/1778515-keksobooking-23/tree/master/js) you can review the code written by me on JavaScript.<br>
 HTML and CSS code was written by [HTML Academy](https://htmlacademy.ru).
