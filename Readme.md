@@ -1,15 +1,22 @@
 # PET PROJECT [«Keksobooking»](https://1778515-keksobooking-23.vercel.app/)
 
-### Keksobooking is a service for placing offers of renting property in the center of Tokyo.
+![](img/keksobooking_img.png)
+
+[Here](https://github.com/NaviSparrow/1778515-keksobooking-23/tree/master/js) you can review the code written by me on JavaScript.<br>
+HTML and CSS code was written by [HTML Academy](https://htmlacademy.ru).
+
+"Keksobooking" is a service for placing offers of renting property in the center of Tokyo.
 
 ---
-### Stack for this project:
-* JavaScript
+### On this project I used and learned:
+* **JavaScript** (ES 2015+)
+* ECMAScript modules
+* DOM
+* HTML5 Validation API
 * Leaflet
-* REST API
+* Fetch API, Promise, JSON
 ---
 
-On this project I was creating logic on JavaScript, worked with forms and validation as well as with open source map "Leaflet". You can review the code [here](https://github.com/NaviSparrow/1778515-keksobooking-23/tree/master/js)
 ### To run this project locally:
 
 #### 1. Clone branch `master` with the `git@github.com:NaviSparrow/1778515-keksobooking-23.git`
@@ -17,7 +24,3 @@ On this project I was creating logic on JavaScript, worked with forms and valida
 #### 2. `npm install`
 
 #### 3. `npm run start`
-
-<a href="https://htmlacademy.ru/intensive/javascript"><img align="left" width="50" height="50" alt="HTML Academy" src="https://up.htmlacademy.ru/static/img/intensive/javascript/logo-for-github-2.png"></a>
-
-Репозиторий создан для обучения на интенсивном онлайн‑курсе «[JavaScript. Профессиональная разработка веб-интерфейсов](https://htmlacademy.ru/intensive/javascript)» от [HTML Academy](https://htmlacademy.ru).
